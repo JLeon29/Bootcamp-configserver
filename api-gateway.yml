@@ -1,0 +1,43 @@
+server:
+  port: 9093
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8081
+      username: nttdata
+      password: ju4an29
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: service-credit
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/credit/**
+
+        - id: service-client
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/client/**
+            
+        - id: service-account
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/account/**
+            
+        - id: account-service
+          uri: http://localhost:9002
+          predicates:
+            - Path=/api/currentAccount/**
+            
+        - id: customer-service
+          uri: http://localhost:9001
+          predicates:
+            - Path=/api/customer/**
+         
